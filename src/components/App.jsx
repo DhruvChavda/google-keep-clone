@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Header from "./Header";
 import Footer from "./Footer";
 import Note from "./Note";
@@ -7,6 +7,16 @@ import "./all-styles.css";
 
 function App() {
     const [list, setList] = useState([]);
+
+    // RUN ONCE TO GET NOTES
+    useEffect(() => {
+        getLocalNotes();
+    }, []);
+
+    // UPDATE EVERY TIME LIST CHANGES
+    useEffect(() => {
+        saveLocalNotes();
+    }, [list]);
 
     function addNote(note) {
         setList((prev) => {
@@ -42,16 +52,36 @@ function App() {
             />
         );
     }
+
+    // save local notes
+    const saveLocalNotes = () => {
+        if (localStorage.getItem("notes") === null) {
+            localStorage.setItem("notes", JSON.stringify([]));
+        } else {
+            localStorage.setItem("notes", JSON.stringify(list));
+        }
+    };
+
+    const getLocalNotes = () => {
+        if (localStorage.getItem("notes") === null) {
+            setList([]);
+        } else {
+            let oldNotes = JSON.parse(localStorage.getItem("notes"));
+
+            setList(oldNotes);
+        }
+    };
+
     return (
-        <div>
-            <Header />
-            <CreateArea adder={addNote} />
-            {list
-                .filter((note) => {
-                    return note.title !== "" || note.content !== "";
-                })
-                .map(createNote)}
-            <Footer />
+        <div className="MainPage">
+            <div className='except-footer'>
+                <Header />
+                <CreateArea adder={addNote} />
+                {list.map(createNote)}
+            </div>
+            <div className='myFooter'>
+                <Footer />
+            </div>
         </div>
     );
 }

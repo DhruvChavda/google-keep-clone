@@ -15,7 +15,7 @@ function EditNote(props) {
     }
     return (
         <div>
-            <form className="edit-note">
+            <form className='edit-note'>
                 <input
                     onChange={whenChanged}
                     name='title'
@@ -31,9 +31,12 @@ function EditNote(props) {
                 />
                 <button
                     onClick={(event) => {
-                        console.log(editedNote);
-                        props.update(props.id, editedNote);
-                        props.bandh(false)
+                        if (editedNote.title === "" && editedNote.content === "") {
+                            props.remove(props.id);
+                        } else {
+                            props.update(props.id, editedNote);
+                        }
+                        props.bandh(false);
                         event.preventDefault();
                     }}>
                     Save
