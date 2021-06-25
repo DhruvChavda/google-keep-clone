@@ -3,6 +3,7 @@ import Header from "./Header";
 import Footer from "./Footer";
 import Note from "./Note";
 import CreateArea from "./CreateArea";
+import "./all-styles.css";
 
 function App() {
     const [list, setList] = useState([]);
@@ -15,7 +16,6 @@ function App() {
     }
 
     function updateNote(noteInd, newNote) {
-        // console.log("aaya aaya ", noteInd, " yaaahooo!!! ", newNote);
         setList((prev) => {
             return prev.map((note, ind) => {
                 if (ind === noteInd) return newNote;
@@ -46,7 +46,11 @@ function App() {
         <div>
             <Header />
             <CreateArea adder={addNote} />
-            {list.map(createNote)}
+            {list
+                .filter((note) => {
+                    return note.title !== "" || note.content !== "";
+                })
+                .map(createNote)}
             <Footer />
         </div>
     );

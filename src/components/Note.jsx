@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import EditNote from "./EditNote";
+import "./all-styles.css";
 
 function Note(props) {
     const [noteClass, setnoteClass] = useState("note");

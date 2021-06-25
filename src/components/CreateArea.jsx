@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import "./all-styles.css";
 
 function CreateArea(props) {
     const [note, setNote] = useState({
